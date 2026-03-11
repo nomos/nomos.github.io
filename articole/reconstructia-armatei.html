@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Dosar: Reconstrucția Armatei 2026 | NOMOS MEDIA</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@300;400;600&family=Fira+Code&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --bg: #0a0a0a;
+            --surface: #121212;
+            --accent: #ff3e3e;
+            --text: #e0e0e0;
+            --muted: #666;
+            --safe-green: #4ade80;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        html, body {
+            overflow-x: hidden;
+            width: 100%;
+            background-color: var(--bg);
+            color: var(--text);
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+        }
+
+        .container { max-width: 800px; margin: 0 auto; padding: 40px 20px; }
+
+        /* Header Stilizat */
+        .kicker {
+            color: var(--accent);
+            font-family: 'Fira Code', monospace;
+            font-size: 0.8rem;
+            letter-spacing: 2px;
+            display: block;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+        }
+
+        h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2rem, 8vw, 3.2rem);
+            color: #fff;
+            line-height: 1.1;
+            margin-bottom: 25px;
+        }
+
+        .lead {
+            font-size: 1.2rem;
+            color: #bbb;
+            border-left: 3px solid var(--accent);
+            padding-left: 20px;
+            margin-bottom: 40px;
+            font-style: italic;
+        }
+
+        /* Module de Date */
+        .source-tag {
+            display: inline-block;
+            background: #1a1a1a;
+            padding: 4px 8px;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.7rem;
+            color: var(--muted);
+            margin-bottom: 20px;
+            border: 1px solid #333;
+        }
+
+        h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            color: #fff;
+            margin: 40px 0 20px 0;
+            border-bottom: 1px solid #222;
+            padding-bottom: 10px;
+        }
+
+        p { margin-bottom: 20px; font-size: 1.05rem; }
+
+        /* Tabel Responsiv */
+        .table-container {
+            width: 100%;
+            overflow-x: auto;
+            margin: 30px 0;
+            border: 1px solid #222;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.85rem;
+            min-width: 500px;
+        }
+
+        th { background: #1a1a1a; color: var(--accent); text-align: left; padding: 12px; border-bottom: 2px solid #333; }
+        td { padding: 12px; border-bottom: 1px solid #222; }
+
+        /* Callout Box */
+        .callout {
+            background: var(--surface);
+            border: 1px solid var(--accent);
+            padding: 25px;
+            margin: 40px 0;
+            position: relative;
+        }
+
+        .callout::before {
+            content: "URGENT";
+            position: absolute;
+            top: -10px;
+            left: 20px;
+            background: var(--accent);
+            color: #fff;
+            font-family: 'Fira Code', sans-serif;
+            font-size: 0.7rem;
+            padding: 2px 10px;
+        }
+
+        .stat-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .stat-item {
+            border-top: 1px solid #333;
+            padding-top: 10px;
+        }
+
+        .stat-value {
+            display: block;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--safe-green);
+        }
+
+        .stat-label { font-size: 0.75rem; color: var(--muted); text-transform: uppercase; }
+
+        .sat-image {
+            width: 100%;
+            height: auto;
+            filter: grayscale(1) contrast(1.2);
+            border: 1px solid #333;
+            margin: 20px 0;
+        }
+
+        footer {
+            margin-top: 60px;
+            padding-top: 20px;
+            border-top: 1px solid #1a1a1a;
+            color: var(--muted);
+            font-size: 0.8rem;
+            text-align: center;
+        }
+
+        @media (max-width: 600px) {
+            .stat-grid { grid-template-columns: 1fr; }
+            .container { padding: 20px 15px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <header>
+            <span class="kicker">Dosar Securitate Națională</span>
+            <h1>ECONOMIA RĂZBOIULUI: România accesează 16 miliarde € pentru a opri „îmbătrânirea” sistemului defensiv</h1>
+            <p class="lead">Între avertismentul Generalului Gheorghiță Vlad și reforma Moșteanu: Cum plătește statul român pentru a reface rezerva operațională înainte ca timpul să expire.</p>
+        </header>
+
+        <article>
+
+
+            <p>Sistemul defensiv al României se află la un "Moment T0". În timp ce amenințările la granița estică escaladează, arhitectura militară a țării trece prin cea mai agresivă transformare din 2007 încoace, încercând să rezolve simultan trei crize: <strong>personalul, dotarea și legislația.</strong></p>
+
+            <h2>1. Avertismentul Generalului: Rezerva de „48 de ani”</h2>
+            <p>Șeful Statului Major al Apărării, <strong>Generalul Gheorghiță Vlad</strong>, a oferit o diagnoză brutală a situației curente: rezerva operațională a României este practic blocată la nivelul anului 2007. „Suntem în postura de a cumpăra timp”, afirmă acesta, subliniind că militarii rămași în evidențe sunt prea bătrâni pentru rigorile frontului modern.</p>
+
+            <div class="callout">
+                <strong>DIAGNOZA SMA:</strong>
+                <p style="font-size: 0.95rem; margin-top: 10px;">Deficitul de personal a ajuns la zeci de procente, iar peste 6.000 de cadre au părăsit sistemul doar în ultimul an. Fără o infuzie rapidă de tineri, capacitatea de reacție este sever limitată.</p>
+                <div class="stat-grid">
+                    <div class="stat-item">
+                        <span class="stat-value">350.000</span>
+                        <span class="stat-label">Rezerviști ieșiți din uz (2025-27)</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-value">2007</span>
+                        <span class="stat-label">Anul ultimei actualizări reale</span>
+                    </div>
+                </div>
+            </div>
+
+            <h2>2. Reforma Moșteanu: Soluția Voluntarului Plătit</h2>
+            <p>Pentru a contracara îmbătrânirea rezervei, Ministerul Apărării a propus modificarea Legii 446/2006. Noua strategie nu reintroduce armata obligatorie, ci mizează pe un sistem de <strong>voluntariat în termen</strong> extrem de atractiv financiar.</p>
+
+            <img src="../img/antrenament.jpg" alt="Antrenament Militar" class="sat-image">
+
+            <p>Tinerii între 18 și 35 de ani pot opta pentru un stagiu de 4 luni. La finalizarea acestuia, statul oferă o recompensă de <strong>trei salarii medii brute</strong>, asigurând totodată păstrarea locului de muncă în sectorul civil. Ținta MApN este instruirea a 10.000 de tineri anual începând cu 2027.</p>
+
+            <h2>3. Finanțarea SAFE: 16,6 Miliarde €</h2>
+            <p>Ministrul <strong>Radu Miruță</strong> a confirmat că România a securizat a doua cea mai mare alocare din programul european SAFE, după Polonia. Aceste fonduri reprezintă „coloana vertebrală” a înzestrării, permițând trecerea la standardele NATO de care industria națională a dus lipsă în ultimele două decenii.</p>
+
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>CATEGORIE</th>
+                            <th>SITUAȚIE VECHE</th>
+                            <th>PROGRAM 2026 (SAFE)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Muniție Artilerie</td>
+                            <td>152 mm (Sovietic)</td>
+                            <td>155 mm (NATO Standard)</td>
+                        </tr>
+                        <tr>
+                            <td>Armament Individual</td>
+                            <td>Pistol Carpați / AKM</td>
+                            <td>Armă asalt NATO / Night Vision</td>
+                        </tr>
+                        <tr>
+                            <td>Apărare Aeriană</td>
+                            <td>Deficit înălțimi mici</td>
+                            <td>Sisteme Mistral / Chiron</td>
+                        </tr>
+                        <tr>
+                            <td>Vectori Balistici</td>
+                            <td>Limitat</td>
+                            <td>7 Baterii Patriot (Total)</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <p>„Nu investim pentru a fi ofensivi, ci pentru a descuraja”, a precizat Miruță. Programul vizează 21 de achiziții majore, inclusiv linii de producție autohtone pentru muniția de calibru 155 mm, esențială în cazul unui conflict prelungit, unde stocurile NATO ar fi singura resursă viabilă.</p>
+
+            <p>Concluzia generalului Vlad rămâne însă punctul focal al acestui dosar: <strong>Rusia nu se va opri la Ucraina</strong>. România are acum la dispoziție o fereastră îngustă de oportunitate financiară și legislativă pentru a transforma o armată „pe hârtie” într-o forță de descurajare reală.</p>
+        </article>
+
+        <footer>
+            NOMOS MEDIA &copy; 2026 | SURSE: MApN, OBSERVATORUL MILITAR<br>
+            DOSAR #DEFENSE-RO-2026-SAFE
+        </footer>
+    </div>
+
+</body>
+</html>
