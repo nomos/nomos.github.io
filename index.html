@@ -180,6 +180,104 @@ img, .visual-module, #map, .sat-image-container {
         height: 180px;
     }
 }
+/* Stiluri Card NOMOS */
+.nomos-card {
+    display: block;
+    background: #0a0a0a;
+    border: 1px solid #1a1a1a;
+    text-decoration: none;
+    color: #e0e0e0;
+    transition: transform 0.3s ease, border-color 0.3s ease;
+    max-width: 400px; /* Ajustabil în funcție de grid */
+    margin-bottom: 20px;
+}
+
+.nomos-card:hover {
+    transform: translateY(-5px);
+    border-color: #ff3e3e; /* Accentul tău roșu */
+}
+
+.card-image {
+    width: 100%;
+    height: 200px;
+    background: #111; /* Placeholder până pui imaginea */
+    position: relative;
+    overflow: hidden;
+}
+
+.status-tag {
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    background: #ff3e3e;
+    color: #fff;
+    font-family: 'Fira Code', monospace;
+    font-size: 0.6rem;
+    padding: 4px 8px;
+    font-weight: bold;
+}
+
+.card-content {
+    padding: 20px;
+}
+
+.card-kicker {
+    font-family: 'Fira Code', monospace;
+    font-size: 0.65rem;
+    color: #f59e0b; /* Oil Gold */
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.card-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.4rem;
+    margin: 10px 0;
+    line-height: 1.2;
+    color: #fff;
+}
+
+.card-excerpt {
+    font-size: 0.9rem;
+    color: #999;
+    margin-bottom: 20px;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.card-footer {
+    display: flex;
+    justify-content: space-between;
+    border-top: 1px solid #1a1a1a;
+    padding-top: 15px;
+    font-family: 'Fira Code', monospace;
+    font-size: 0.6rem;
+    color: #444;
+}
+.card-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Asigură că imaginea umple spațiul fără să se deformeze */
+    display: block;
+    filter: brightness(0.7) contrast(1.1) grayscale(0.2); /* Efect vizual Nomos */
+    transition: transform 0.5s ease;
+}
+
+.nomos-card:hover .card-image img {
+    transform: scale(1.05); /* Zoom discret la hover */
+    filter: brightness(0.9) contrast(1.1); /* Se luminează puțin la hover */
+}
+
+/* Stilul containerului rămâne același, dar asigură-te că are overflow hidden */
+.card-image {
+    width: 100%;
+    height: 220px; /* Am mărit puțin înălțimea pentru impact vizual */
+    background: #000;
+    position: relative;
+    overflow: hidden;
+}
     </style>
 </head>
 <body>
@@ -216,7 +314,23 @@ img, .visual-module, #map, .sat-image-container {
                 </div>
             </a>
         </div>
-
+        <a href="articole/articol-hormuz.html" class="nomos-card">
+      <div class="card-image">
+          <img src="img/petrolier.jpg" alt="Petrolier în Strâmtoarea Hormuz">
+          <div class="status-tag">BREAKING</div>
+      </div>
+      <div class="card-content">
+          <span class="card-kicker">Economie Globală // IEA</span>
+          <h3 class="card-title">Scutul de 400 de milioane: Intervenția care a stopat criza din Hormuz</h3>
+          <p class="card-excerpt">
+              După ce barilul a atins 119.5$, statele membre IEA au eliberat rezerve record pentru a acoperi deficitul de 15 milioane de barili/zi provocat de blocada din strâmtoare.
+          </p>
+          <div class="card-footer">
+              <span class="read-time">4 MIN READ</span>
+              <span class="date">11 MARTIE 2026</span>
+          </div>
+      </div>
+  </a>
         <!-- <h3 class="section-title">Investigații Recente</h3>
         <div class="article-grid">
 
