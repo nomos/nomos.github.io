@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>NOMOS MEDIA | Ordinea Evenimentelor</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Inter:wght@300;400;600&family=Fira+Code&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #050505;
+            --surface: #0f0f0f;
+            --accent: #ff3e3e;
+            --text: #e0e0e0;
+            --muted: #555;
+        }
+
+        body { background-color: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; margin: 0; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 20px; }
+
+        /* HEADER */
+        header { text-align: center; padding: 80px 0; border-bottom: 1px solid #1a1a1a; }
+        .logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 3.5rem;
+            font-weight: 900;
+            letter-spacing: 12px;
+            color: #fff;
+            text-decoration: none;
+            text-transform: uppercase;
+        }
+        .tagline { font-family: 'Fira Code', monospace; font-size: 0.7rem; color: var(--muted); margin-top: 15px; letter-spacing: 3px; }
+
+        /* NAV / SECTIUNI */
+        nav { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: #1a1a1a; margin: 40px 0; border: 1px solid #1a1a1a; }
+        nav a { background: var(--bg); padding: 20px; text-align: center; text-decoration: none; color: #888; font-size: 0.8rem; font-weight: 600; letter-spacing: 2px; transition: 0.3s; }
+        nav a:hover { color: #fff; background: var(--surface); }
+
+        /* EVENIMENTE CHEIE */
+        .featured-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 60px; }
+        .card-large {
+            position: relative; height: 400px; background: #111; border: 1px solid #1a1a1a;
+            display: flex; align-items: flex-end; text-decoration: none; overflow: hidden;
+        }
+        .card-large img { position: absolute; width: 100%; height: 100%; object-fit: cover; opacity: 0.4; filter: grayscale(100%); transition: 0.5s; }
+        .card-large:hover img { opacity: 0.6; transform: scale(1.05); filter: grayscale(0%); }
+        .card-content { position: relative; z-index: 2; padding: 30px; background: linear-gradient(transparent, rgba(0,0,0,0.9)); width: 100%; }
+        .label { color: var(--accent); font-family: 'Fira Code'; font-size: 0.7rem; margin-bottom: 10px; display: block; }
+        .card-title { font-family: 'Playfair Display'; font-size: 2rem; color: #fff; margin: 0; }
+
+        /* ULTIMELE ARTICOLE */
+        .section-title { font-family: 'Fira Code'; font-size: 0.8rem; color: var(--muted); border-bottom: 1px solid #1a1a1a; padding-bottom: 10px; margin-bottom: 30px; text-transform: uppercase; }
+        .article-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 40px; }
+        .article-item { text-decoration: none; color: inherit; display: block; }
+        .article-item:hover .art-t { color: var(--accent); }
+        .art-thumb { width: 100%; height: 200px; background: #111; margin-bottom: 15px; object-fit: cover; border: 1px solid #1a1a1a; }
+        .art-t { font-family: 'Playfair Display'; font-size: 1.5rem; color: #fff; margin: 0; transition: 0.3s; line-height: 1.2; }
+        .art-d { font-size: 0.85rem; color: #666; margin-top: 10px; }
+
+        footer { padding: 80px 0; text-align: center; border-top: 1px solid #1a1a1a; margin-top: 100px; font-size: 0.7rem; color: #333; letter-spacing: 2px; }
+        /* Previne scroll-ul orizontal care provoacă zoom-ul greșit */
+html, body {
+    overflow-x: hidden;
+    width: 100%;
+    position: relative;
+}
+
+/* Forțează toate imaginile și modulele să nu depășească ecranul */
+img, .visual-module, #map, .sat-image-container {
+    max-width: 100% !important;
+    box-sizing: border-box;
+}
+
+/* Ajustare pentru ecrane mici */
+@media (max-width: 600px) {
+    h1 { font-size: 2rem !important; } /* Titlul prea mare poate lărgi pagina */
+    .container { padding: 20px 15px !important; }
+    .rocket-flex { gap: 20px !important; }
+}
+/* Containerul cardului (Link-ul principal) */
+.card-nomos {
+    display: flex;
+    flex-direction: column;
+    background-color: #121212; /* Fundal închis, specific NOMOS */
+    border: 1px solid #222;
+    text-decoration: none;
+    color: #e0e0e0;
+    transition: transform 0.3s ease, border-color 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+    box-sizing: border-box; /* Previne depășirea lățimii pe mobil */
+}
+
+.card-nomos:hover {
+    transform: translateY(-5px);
+    border-color: #ff3e3e; /* Accentul roșu la hover */
+}
+
+/* Eticheta de categorie (ANALIZĂ GEOPOLITICĂ) */
+.card-label {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    background-color: #ff3e3e;
+    color: #fff;
+    font-family: 'Fira Code', monospace;
+    font-size: 0.65rem;
+    font-weight: bold;
+    padding: 3px 10px;
+    z-index: 10;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+/* Wrapper-ul pentru imagine - Menține aspectul constant */
+.card-img-wrapper {
+    width: 100%;
+    height: 200px; /* Înălțime fixă pentru aliniere în grid */
+    overflow: hidden;
+    background-color: #000;
+}
+
+.card-img-wrapper img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Taie imaginea armonios fără să o deformeze */
+    filter: grayscale(1) contrast(1.1); /* Stil industrial */
+    transition: filter 0.3s ease;
+}
+
+.card-nomos:hover .card-img-wrapper img {
+    filter: grayscale(0.4) contrast(1); /* Revine parțial la culori la hover */
+}
+
+/* Corpul cardului (zona de text) */
+.card-body {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+/* Meta date (FRONTUL DE EST // UPDATE 2026) */
+.card-meta {
+    font-family: 'Fira Code', monospace;
+    font-size: 0.7rem;
+    color: #666;
+    letter-spacing: 1px;
+}
+
+/* Titlul articolului */
+.card-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.4rem;
+    color: #fff;
+    line-height: 1.2;
+    margin: 5px 0;
+}
+
+/* Scurtă descriere (Excerpt) */
+.card-excerpt {
+    font-size: 0.9rem;
+    color: #999;
+    line-height: 1.5;
+    margin: 0;
+    /* Limitare la 3 rânduri de text pentru uniformitate */
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+/* Ajustări pentru ecrane mici (Mobil) */
+@media (max-width: 600px) {
+    .card-title {
+        font-size: 1.25rem;
+    }
+
+    .card-img-wrapper {
+        height: 180px;
+    }
+}
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <header>
+            <a href="index.html" class="logo">NOMOS</a>
+            <div class="tagline">STRUCTURA ȘI ANALIZA REALITĂȚII OBIECTIVE</div>
+        </header>
+
+        <nav>
+            <a href="international.html">INTERNATIONAL</a>
+            <!-- <a href="market.html">MARKET</a> -->
+            <a href="romania.html">ROMANIA</a>
+        </nav>
+
+        <div class="featured-grid">
+          <a href="articole/reconstructia-armatei.html" class="card-nomos">
+        <span class="card-label">DOSAR SPECIAL</span>
+        <div class="card-img-wrapper">
+            <img src="img/antrenament.jpg" alt="Antrenament">
+        </div>
+        <div class="card-body">
+            <span class="card-meta">APĂRARE // 16.6 MLD €</span>
+            <h3 class="card-title">RECONSTRUCȚIA: 16 miliarde € pentru noua armată</h3>
+            <p class="card-excerpt">Planul MApN pentru salvarea rezervei operaționale și achiziția de tehnică NATO.</p>
+        </div>
+    </a>
+            <a href="articole/iran-conflict.html" class="card-large">
+                <img src="https://images.unsplash.com/photo-1542332213-31f87348057f?q=80&w=1000" alt="Iran">
+                <div class="card-content">
+                    <span class="label">CONFLICT NUCLEAR</span>
+                    <h3 class="card-title">Iran: Raza de 2.000km și Muntele Târnăcopului</h3>
+                </div>
+            </a>
+        </div>
+
+        <!-- <h3 class="section-title">Investigații Recente</h3>
+        <div class="article-grid">
+
+            <a href="iran-conflict.html" class="article-item">
+                <img src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=500" class="art-thumb">
+                <h4 class="art-t">Arhitectura Apocalipsei: Analiza stocului HEU</h4>
+                <p class="art-d">O investigație despre noile facilități de îmbogățire a uraniului din Iran.</p>
+            </a>
+
+            <a href="articole/energie.html" class="article-item">
+                <div class="art-thumb" style="display:flex; align-items:center; justify-content:center; color:#222; font-size:0.7rem;">[MEDIA_ASSET_04]</div>
+                <h4 class="art-t">Piața Energiei: Proiecții pentru Q3 2026</h4>
+                <p class="art-d">Cum influențează tensiunile din Golf prețul barilului de petrol.</p>
+            </a>
+
+        </div> -->
+
+        <footer>
+            NOMOS MEDIA &copy; 2026 | DOCUMENTARE RIGUROASĂ
+        </footer>
+    </div>
+
+</body>
+</html>
