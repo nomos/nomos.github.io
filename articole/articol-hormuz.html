@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DOSAR NOMOS: Arhitectura unei Crize Energetice | 2026</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Inter:wght@300;400;600&family=Fira+Code&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+    <style>
+        :root {
+            --bg: #050505;
+            --accent: #ff3e3e;
+            --oil-gold: #f59e0b;
+            --text: #d1d1d1;
+            --border: #1a1a1a;
+            --nav-bg: rgba(5, 5, 5, 0.9);
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: 'Inter', sans-serif;
+            line-height: 1.8;
+            margin: 0;
+            padding-top: 70px; /* Spațiu pentru header-ul fix */
+        }
+
+        /* --- Global Header & Nav --- */
+        .global-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 70px;
+            background: var(--nav-bg);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 40px;
+            z-index: 1000;
+        }
+
+        .logo {
+            font-family: 'Playfair Display';
+            font-weight: 900;
+            font-size: 1.8rem;
+            color: #fff;
+            text-decoration: none;
+            letter-spacing: -1px;
+        }
+
+        .logo span { color: var(--accent); }
+
+        .nav-back {
+            font-family: 'Fira Code';
+            font-size: 0.75rem;
+            color: #fff;
+            text-decoration: none;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border: 1px solid var(--border);
+            padding: 8px 16px;
+            transition: 0.3s;
+        }
+
+        .nav-back:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+
+        /* --- Content Layout --- */
+        .container { max-width: 800px; margin: 0 auto; padding: 60px 20px; }
+
+        .kicker { color: var(--accent); font-family: 'Fira Code'; font-size: 0.8rem; letter-spacing: 3px; text-transform: uppercase; font-weight: 600; }
+        h1 { font-family: 'Playfair Display'; font-size: clamp(2.5rem, 7vw, 4rem); color: #fff; margin: 20px 0; line-height: 1; font-weight: 900; }
+        .lead { font-size: 1.4rem; color: #fff; line-height: 1.5; margin-bottom: 40px; font-weight: 300; border-left: 4px solid var(--accent); padding-left: 25px; }
+        h2 { font-family: 'Playfair Display'; font-size: 2.2rem; margin: 60px 0 25px; color: #fff; }
+        p { margin-bottom: 30px; font-size: 1.15rem; text-align: justify; }
+        b { color: #fff; font-weight: 600; }
+
+        /* Stats Section */
+        .data-heavy {
+            display: grid; grid-template-columns: 1fr 1fr; gap: 2px;
+            background: var(--border); border: 1px solid var(--border); margin: 50px 0;
+        }
+        .data-point { background: #080808; padding: 30px; }
+        .data-point .val { display: block; color: var(--oil-gold); font-family: 'Fira Code'; font-size: 2rem; font-weight: bold; }
+        .data-point .lab { font-size: 0.7rem; color: #666; text-transform: uppercase; letter-spacing: 1px; margin-top: 5px; display: block; }
+
+        /* Map Section */
+        .visual-block { margin: 60px 0; }
+        .map-container { height: 500px; border: 1px solid var(--border); box-shadow: 0 20px 50px rgba(0,0,0,0.5); }
+        .legend-box { background: #0d0d0d; border: 1px solid var(--border); padding: 25px; margin-top: -1px; font-size: 0.95rem; }
+        .legend-item { display: flex; gap: 15px; margin-bottom: 12px; align-items: flex-start; }
+
+        footer { text-align: center; padding: 80px 0; border-top: 1px solid var(--border); font-family: 'Fira Code'; font-size: 0.75rem; color: #555; }
+
+        @media (max-width: 600px) {
+            .global-header { padding: 0 20px; }
+            .logo { font-size: 1.4rem; }
+            .data-heavy { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="global-header">
+        <a href="index.html" class="logo">NOMOS<span>.</span></a>
+        <a href="../index.html" class="nav-back">← Înapoi</a>
+    </header>
+
+    <div class="container">
+        <header>
+            <span class="kicker">DOSAR NOMOS MEDIA // ANALIZĂ_CRITICĂ</span>
+            <h1>Digul de 400 de milioane: Cum a fost evitat colapsul</h1>
+            <p class="lead">Într-o cursă contra cronometru, statele IEA au activat cel mai mare transfer de energie din istorie pentru a neutraliza arma petrolului din Strâmtoarea Hormuz.</p>
+        </header>
+
+        <article>
+            <p>Sistemul energetic global a experimentat în primele săptămâni ale lunii martie 2026 ceea ce economiștii numesc un "șoc sistemic de grad zero". Blocarea parțială a Strâmtorii Hormuz nu a fost doar o manevră militară, ci o lovitură directă în aorta economiei mondiale. Cu <b>20% din traficul global de petrol</b> pus sub semnul întrebării, piața a reacționat violent.</p>
+
+            <p>Conform datelor oficiale centralizate de IEA și raportate de <i>The Guardian</i>, s-a creat un gol imens în aprovizionare: <b>15 milioane de barili pe zi</b> au încetat să mai ajungă în rafinăriile din Europa și Asia. Răspunsul a venit sub forma unei decizii fără precedent: eliberarea a <b>400 de milioane de barili</b> din rezervele strategice ale celor 32 de state membre.</p>
+
+            <div class="data-heavy">
+                <div class="data-point"><span class="val">400M</span><span class="lab">Barili (Capacitate Totală Intervenție)</span></div>
+                <div class="data-point"><span class="val">15M</span><span class="lab">Deficit Zilnic (BBL/Zi)</span></div>
+                <div class="data-point"><span class="val">32</span><span class="lab">State Membre Coordonate</span></div>
+                <div class="data-point"><span class="val">119.5$</span><span class="lab">Cotație Maximă (Brent)</span></div>
+            </div>
+
+            <h2>Gâtul de sticlă: O problemă de 33 de kilometri</h2>
+            <p>Strâmtoarea Hormuz rămâne cel mai vulnerabil punct geografic de pe planetă. În cel mai îngust punct al său, doar <b>33 de kilometri</b> despart coastele iraniene de cele ale peninsulei Musandam. Harta de mai jos evidențiază perimetrul de risc unde atacurile recente au forțat marile companii de transport să suspende navigația.</p>
+
+            <div class="visual-block">
+                <div id="map" class="map-container"></div>
+                <div class="legend-box">
+                    <div class="legend-item">
+                        <span style="color:var(--accent); font-size: 1.5rem; line-height: 1;">●</span>
+                        <span><b>ZONĂ DE BLOCADĂ:</b> Perimetrul critic de monitorizare unde navele comerciale au fost redirecționate sau stopate pentru a evita atacurile asimetrice.</span>
+                    </div>
+                    <div class="legend-item">
+                        <span style="color:var(--oil-gold); font-size: 1.5rem; line-height: 1;">--</span>
+                        <span><b>RUTA DE TRANZIT:</b> Cordonul principal prin care petrolul din Golful Persic ajunge în piețele externe. Orice perturbare aici se traduce în penurie globală.</span>
+                    </div>
+                </div>
+            </div>
+
+            <h2>Solidaritatea Rezervelor: Japonia, Germania, UK</h2>
+            <p>Intervenția nu a fost doar simbolică, ci o operațiune logistică de o complexitate extremă. <b>Japonia</b>, fiind cel mai expus stat la rutele din Golf, a preluat conducerea efortului, eliberând <b>80 de milioane de barili</b>. Europa a urmat rapid exemplul, cu <b>Germania</b> injectând <b>19.51 milioane</b> și <b>Marea Britanie</b> contribuind cu <b>13.5 milioane</b>.</p>
+
+            <p>Această infuzie masivă a avut un scop clar: tăierea speculei. După ce prețul atinsese pragul critic de <b>119.50$ per baril</b>, anunțul IEA a forțat piața să se recalibreze. Cotația s-a stabilizat ulterior la <b>90$</b>, oferind un răgaz necesar guvernelor pentru a gestiona presiunea inflaționistă imensă asupra transporturilor și logisticii naționale.</p>
+
+            <p>Deși succesul intervenției este vizibil, rezervele strategice sunt, prin definiție, finite. Strategia "digului de 400 de milioane" a oferit timp, însă problema structurală a securității maritime în Strâmtoarea Hormuz rămâne nerezolvată.</p>
+        </article>
+
+        <footer>
+            NOMOS MEDIA // DOSAR ENERGIE 2026 // SURSA DATELOR: IEA
+        </footer>
+    </div>
+
+    <script>
+        const map = L.map('map', {
+            center: [26.5, 56.3],
+            zoom: 7,
+            zoomControl: false,
+            dragging: true,
+            scrollWheelZoom: false
+        });
+
+        L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+            attribution: '&copy; CartoDB'
+        }).addTo(map);
+
+        L.circle([26.58, 56.45], {
+            color: '#ff3e3e',
+            fillColor: '#ff3e3e',
+            fillOpacity: 0.3,
+            radius: 45000
+        }).addTo(map);
+
+        L.polyline([[24.5, 58.5], [26.2, 56.4], [27.5, 52.5]], {
+            color: '#f59e0b',
+            weight: 2,
+            dashArray: '5, 10'
+        }).addTo(map);
+
+        L.control.zoom({ position: 'bottomleft' }).addTo(map);
+    </script>
+</body>
+</html>
