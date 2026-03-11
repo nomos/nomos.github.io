@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Investigație: Proiectul 2000KM</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@300;400;600&family=Fira+Code&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --bg: #0a0a0a;
+            --surface: #121212;
+            --accent: #ff3e3e;
+            --uranium: #4ade80;
+            --text: #e0e0e0;
+            --muted: #666;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text);
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            line-height: 1.8;
+        }
+
+        .container { max-width: 850px; margin: 0 auto; padding: 60px 20px; }
+
+        .kicker { color: var(--accent); font-family: 'Fira Code', monospace; font-size: 0.85rem; font-weight: 600; letter-spacing: 2px; display: block; margin-bottom: 10px; }
+        h1 { font-family: 'Playfair Display', serif; font-size: 3.2rem; color: #fff; line-height: 1.1; margin: 0 0 30px 0; }
+        .lead { font-size: 1.35rem; color: #fff; line-height: 1.5; font-weight: 300; border-left: 4px solid var(--accent); padding-left: 25px; margin-bottom: 50px; font-style: italic; }
+        h2 { font-family: 'Playfair Display', serif; font-size: 2rem; color: #fff; margin-top: 40px; border-bottom: 1px solid #222; padding-bottom: 10px; margin-bottom: 20px; }
+        p { margin-bottom: 25px; font-size: 1.1rem; color: #ccc; }
+        strong { color: #fff; }
+
+        /* Module Vizuale */
+        .visual-module {
+            background: var(--surface);
+            padding: 30px;
+            border: 1px solid #222;
+            border-radius: 4px;
+            margin: 40px 0;
+        }
+
+        /* Diagramă Rachetă */
+        .rocket-flex { display: flex; align-items: center; gap: 40px; }
+        .rocket-viz { position: relative; width: 100px; height: 380px; cursor: pointer; flex-shrink: 0; }
+        .part {
+            position: absolute; width: 50px; left: 25px; border: 1px solid #444; background: #1a1a1a;
+            transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        #p1 { height: 60px; top: 0; clip-path: polygon(50% 0%, 0% 100%, 100% 100%); z-index: 5; }
+        #p2 { height: 40px; top: 60px; border-color: var(--uranium); background: rgba(74, 222, 128, 0.15); z-index: 4; }
+        #p3 { height: 190px; top: 100px; z-index: 3; }
+        #p4 { height: 50px; top: 290px; clip-path: polygon(0 0, 100% 0, 80% 100%, 20% 100%); z-index: 2; }
+        .expanded #p1 { transform: translateY(-50px); }
+        .expanded #p2 { transform: translateY(-20px); background: var(--uranium); box-shadow: 0 0 20px rgba(74, 222, 128, 0.4); }
+        .expanded #p3 { transform: translateY(30px); }
+        .expanded #p4 { transform: translateY(70px); }
+
+        /* Imagine Satelit */
+        .sat-image-container { position: relative; width: 100%; border: 1px solid #333; overflow: hidden; }
+        .sat-image { width: 100%; display: block; filter: grayscale(1) contrast(1.2) brightness(0.7); }
+        .target-overlay {
+            position: absolute; top: 45%; left: 52%; border: 2px solid var(--accent); width: 80px; height: 80px;
+            transform: translate(-50%, -50%); pointer-events: none;
+        }
+        .target-label { position: absolute; top: -25px; left: 0; color: var(--accent); font-family: 'Fira Code', monospace; font-size: 10px; white-space: nowrap; }
+
+        /* Hartă */
+        #map { height: 500px; width: 100%; border: 1px solid #333; margin-top: 30px; }
+        .map-ui { background: var(--surface); padding: 25px; border: 1px solid #333; border-top: none; margin-bottom: 50px; }
+        .slider { width: 100%; accent-color: var(--accent); cursor: pointer; }
+
+        footer { text-align: center; padding: 60px 0; color: #444; font-size: 0.8rem; border-top: 1px solid #1a1a1a; }
+
+        @media (max-width: 768px) {
+            .rocket-flex { flex-direction: column; text-align: center; }
+            .rocket-viz { margin: 0 auto; }
+        }
+        /* Previne scroll-ul orizontal care provoacă zoom-ul greșit */
+html, body {
+    overflow-x: hidden;
+    width: 100%;
+    position: relative;
+}
+
+/* Forțează toate imaginile și modulele să nu depășească ecranul */
+img, .visual-module, #map, .sat-image-container {
+    max-width: 100% !important;
+    box-sizing: border-box;
+}
+
+/* Ajustare pentru ecrane mici */
+@media (max-width: 600px) {
+    h1 { font-size: 2rem !important; } /* Titlul prea mare poate lărgi pagina */
+    .container { padding: 20px 15px !important; }
+    .rocket-flex { gap: 20px !important; }
+}
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <article>
+            <header>
+                <span class="kicker">DOSAR: ARHITECTURA APOCALIPSEI</span>
+                <h1>2.000 DE KILOMETRI: Raza de acțiune a arsenalului de la Teheran și bătălia pentru „Muntele Târnăcopului”</h1>
+                <p class="lead">Odată cu numirea lui Mojtaba Khamenei și escaladarea conflictului, atenția serviciilor de informații occidentale s-a fixat pe două coordonate geografice precise și o cifră alarmantă: 2.000 km. Aceasta este distanța pe care o pot parcurge rachetele iraniene purtătoare de focoase nucleare, punând sub semnul întrebării securitatea întregii regiuni.</p>
+            </header>
+
+            <section class="article-body">
+                <p>Investigația noastră indică faptul că stocul de <strong>440 kg de uraniu înalt îmbogățit (HEU)</strong>, depozitat la Isfahan și în fortăreața subterană de la Natanz (Kuh-e Kolang Gaz La), reprezintă piesa finală dintr-un puzzle letal. Conform experților militari, acest material poate fi procesat și montat pe vectori de transport din familia <strong>Shahab-3</strong> în doar câteva luni, dacă regimul decide să „alerge” către bomba atomică.</p>
+
+                <div class="visual-module rocket-flex">
+                    <div class="rocket-viz" id="rocket-trigger" onclick="this.classList.toggle('expanded')">
+                        <div class="part" id="p1"></div>
+                        <div class="part" id="p2"></div>
+                        <div class="part" id="p3"></div>
+                        <div class="part" id="p4"></div>
+                        <p style="position:absolute; bottom:-30px; width:100%; text-align:center; font-size:9px; color:var(--accent)">APASĂ PENTRU SECȚIUNE</p>
+                    </div>
+                    <div>
+                        <strong style="color:var(--uranium); display:block; margin-bottom:10px; font-family:'Fira Code';">ANALIZA VECTORULUI SHAHAB-3</strong>
+                        <p style="font-size: 0.9rem; color: #888; margin: 0;">Focosul (marcat cu verde) este punctul unde stocul de HEU este convertit în metal pentru masa critică. Interacționează cu diagrama pentru a vedea poziționarea sarcinii utile.</p>
+                    </div>
+                </div>
+
+                <h2>Amenințarea de sub Munte</h2>
+                <p>Locația cunoscută sub numele de <strong>„Pickaxe Mountain” (Muntele Târnăcopului)</strong> este atât de adânc îngropată în stâncă, încât doar forțele speciale la sol ar putea asigura neutralizarea materialului fără a provoca un dezastru ecologic. Donald Trump a confirmat dificultatea operațiunii, declarând că trupele vor interveni doar după ce forțele de apărare iraniene vor fi fost „decimate”.</p>
+
+                <div class="visual-module" style="padding: 20px;">
+                    <div class="sat-image-container">
+                        <img src="../img/pickaxe.jpg" class="sat-image" alt="Satelit Natanz">
+                        <div class="target-overlay">
+                            <span class="target-label">[ ZONA DE ACCES TUNEL ]</span>
+                        </div>
+                    </div>
+                    <p style="font-size: 0.85rem; color: #666; margin: 15px 0 0 0; font-family: 'Fira Code';">
+                        Imaginile din satelit furnizate de Planet Labs confirmă prezența a cel puțin patru intrări în tuneluri, protejate de baterii antiaeriene și ziduri de pământ consolidate, elemente vizibile în diagrama de mai sus.
+                    </p>
+                </div>
+
+                <h2>Capabilități Balistice</h2>
+                <p>Cu o rază de acțiune de <strong>2.000 km</strong>, rachetele lansate din centrul Iranului pot atinge obiective strategice majore. Această capacitate transformă stocul de uraniu dintr-o problemă locală într-o amenințare globală. Interactivitatea hărții de mai jos demonstrează vizual cum puncte precum Tel Aviv, Riad sau chiar marginea de sud-est a Europei intră în „zona roșie” a Teheranului.</p>
+            </section>
+
+            <div id="map"></div>
+            <div class="map-ui">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 10px;">
+                    <span style="font-family:'Fira Code'; font-size:0.9rem;">PROIECȚIE BALISTICĂ: <strong id="range-display" style="color:var(--accent)">2000</strong> KM</span>
+                </div>
+                <input type="range" class="slider" id="range-slider" min="500" max="2500" value="2000" oninput="updateMap(this.value)">
+                <p style="font-size:0.8rem; color:var(--muted); margin-top: 10px;">Ajustați slider-ul pentru a vedea potențialul de lovire din locațiile Natanz și Isfahan.</p>
+            </div>
+        </article>
+
+        <footer>
+            SURSE: GUARDIAN INTEL / AIEA / PLANET LABS &copy; 2026
+        </footer>
+    </div>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script>
+        var map = L.map('map', {
+            center: [32.42, 53.68],
+            zoom: 4,
+            zoomControl: false,
+            scrollWheelZoom: false
+        });
+
+        L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+            attribution: 'CartoDB'
+        }).addTo(map);
+
+        var sites = {
+            "Natanz (Complex Nuclear)": [33.7258, 51.9211],
+            "Isfahan (Stoc HEU)": [32.6546, 51.6680]
+        };
+
+        var circles = [];
+
+        for (var site in sites) {
+            L.circleMarker(sites[site], {
+                radius: 5, fillColor: "#ff3e3e", color: "#fff", weight: 1, fillOpacity: 1
+            }).addTo(map).bindPopup(site);
+
+            var c = L.circle(sites[site], {
+                color: '#ff3e3e', fillColor: '#ff3e3e', fillOpacity: 0.1, weight: 1,
+                radius: 2000000
+            }).addTo(map);
+            circles.push(c);
+        }
+
+        function updateMap(val) {
+            document.getElementById('range-display').innerText = val;
+            circles.forEach(function(circle) {
+                circle.setRadius(val * 1000);
+            });
+        }
+    </script>
+</body>
+</html>
